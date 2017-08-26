@@ -22,7 +22,7 @@ namespace Tester
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Logger.Error(e);
             }
 
         }
