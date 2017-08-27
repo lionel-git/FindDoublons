@@ -18,7 +18,7 @@ namespace Tester
             {
                 Logger.Info("Starting Tester...");
                 var h = new Hash();
-                h.HashFile(@"c:\tmp\zz.txt");
+                h.HashFile(@"c:\tmp\zz2.txt");
                 Console.WriteLine(h);
             }
             catch (Exception e)
