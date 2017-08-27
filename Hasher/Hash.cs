@@ -14,7 +14,7 @@ namespace Hasher
 
         Guid FullHash { get; set; }
 
-        Guid? ShortHash { get; set; }
+        Guid ShortHash { get; set; }
 
         static readonly int ShortHashSize = 16;
 

@@ -12,11 +12,19 @@ namespace Tester
     {
         static readonly ILog Logger = LogManager.GetLogger("Tester");
 
+        static void ProcessFile(string fileName)
+        {
+            Console.WriteLine($"File: {fileName}");
+        }
+
         static void Main(string[] args)
         {
             try
             {
                 Logger.Info("Starting Tester...");
+                var w = new FileWalker(ProcessFile);
+                w.WalkDirectory(@"c:\tmp");
+
                 var h = new Hash();
                 h.HashFile(@"c:\tmp\zz2.txt");
                 Console.WriteLine(h);
