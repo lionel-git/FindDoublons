@@ -10,10 +10,14 @@ namespace Hasher
 {
     public class Hash
     {
-        public FileInfo FileInfo { get; set; }
+        // File infos
+        public DateTime LastWriteTimeUtc { get; set; }
+        public DateTime CreationTimeUtc { get; set; }
+        public String FullName { get; set; }
+        public long Length { get; set; }
 
+        // Hash controls
         public Guid FullHash { get; set; }
-
         public Guid ShortHash { get; set; }
 
         private static readonly int ShortHashSize = 16;
@@ -43,7 +47,11 @@ namespace Hasher
 
         public void HashFile(string path)
         {
-            FileInfo = new FileInfo(path);
+            var fileInfo= new FileInfo(path);
+            FullName = fileInfo.FullName;
+            Length = fileInfo.Length;
+            LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
+            CreationTimeUtc = fileInfo.CreationTimeUtc;
             var content = File.ReadAllBytes(path);
             using (MD5 md5Hash = MD5.Create())
             {
@@ -55,8 +63,10 @@ namespace Hasher
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.AppendFormat("Name: {0}", FileInfo.FullName).AppendLine();
-            sb.AppendFormat("Length: {0}", FileInfo.Length).AppendLine();
+            sb.AppendFormat("Name: {0}", FullName).AppendLine();
+            sb.AppendFormat("Length: {0}", Length).AppendLine();
+            sb.AppendFormat("LWT: {0}", LastWriteTimeUtc).AppendLine();
+            sb.AppendFormat("CT: {0}", CreationTimeUtc).AppendLine();
             sb.AppendFormat("FullHash: {0}", FullHash).AppendLine();
             sb.AppendFormat("ShortHash: {0}", ShortHash);
             return sb.ToString();

@@ -20,7 +20,7 @@ namespace Tester
                 var h = new HashDb();
                 var w = new FileWalker(h);
                 w.WalkDirectory(@"c:\tmp");
-
+                h.SaveToXml("HashDb.xml");
                 
                
             }
