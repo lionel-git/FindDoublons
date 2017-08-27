@@ -20,25 +20,32 @@ namespace Hasher
         public Guid FullHash { get; set; }
         public Guid ShortHash { get; set; }
 
-        private static readonly int ShortHashSize = 16;
+        // Size of sample for short hash
+        private static readonly int BlockSizeSH = 16;
+        // Nb of samples for short hash
+        private static readonly int NbBlockSH = 3;
+        // Total size of buffer for Short Hash
+        private static readonly int TotalBlockSizeSH = NbBlockSH * BlockSizeSH;
 
         public Hash()
         {
         }
 
+        // Ne pas lire le fichier complet mais que les blocs utilises pour short Hash
+        // Changer signature
         private void CalculateShortHash(byte[] content, MD5 md5Hash)
         {
-            if (content.Length > 3 * ShortHashSize)
+            if (content.Length > TotalBlockSizeSH)
             {
                 // Create digest from 3 sample blocks
                 // |xxxxxBBxxxxxBBxxxxxBBxxxxx|
                 // So 4x+3B=L
                 // x = (L-3B)/4
                 // Start(k) = x+k*(B+x)
-                var digest = new byte[3 * ShortHashSize];
-                int x = (content.Length - 3 * ShortHashSize) / 4;
-                for (int k=0;k<3;k++)
-                    Buffer.BlockCopy(content, x+k*(ShortHashSize+x), digest, k*ShortHashSize, ShortHashSize);
+                var digest = new byte[TotalBlockSizeSH];
+                int x = (content.Length - TotalBlockSizeSH) / (NbBlockSH + 1);
+                for (int k=0;k< NbBlockSH; k++)
+                    Buffer.BlockCopy(content, x+k*(BlockSizeSH + x), digest, k*BlockSizeSH, BlockSizeSH);
                 ShortHash = new Guid(md5Hash.ComputeHash(digest));
             }
             else

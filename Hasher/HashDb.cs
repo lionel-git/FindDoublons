@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Xml.Serialization;
+using System.Xml;
 
 namespace Hasher
 {
@@ -27,28 +28,59 @@ namespace Hasher
             _control = control;
         }
 
-        public void TreatFile(string fileName)
+        private void AddHash(Hash hash)
         {
-            var h = new Hash();
-            h.HashFile(fileName);
             List<Hash> files;
-            if (!_files.TryGetValue(h.Length, out files))
+            if (!_files.TryGetValue(hash.Length, out files))
             {
                 files = new List<Hash>();
-                _files.Add(h.Length, files);
+                _files.Add(hash.Length, files);
             }
-            files.Add(h);
-            Console.WriteLine("=========\n{0}", h);
+            files.Add(hash);
+        }
+
+        public void TreatFile(string fileName)
+        {
+            var hash = new Hash();
+            hash.HashFile(fileName);
+            AddHash(hash);
+            Console.WriteLine("=========\n{0}", hash);
         }
 
         public void SaveToXml(string path)
         {
             var h0 = _files.Values.ToList();
-            XmlSerializer xs = new XmlSerializer(typeof(List<List<Hash>>));
+            var xs = new XmlSerializer(typeof(List<List<Hash>>));
             using (StreamWriter wr = new StreamWriter(path))
             {
                 xs.Serialize(wr, h0);
             }
+        }
+
+        public void LoadFromXml(string path)
+        {
+            var xs = new XmlSerializer(typeof(List<List<Hash>>));
+            List<List<Hash>> hashes;
+            using (XmlReader reader = XmlReader.Create(path))
+            {
+                hashes = (List<List<Hash>>)xs.Deserialize(reader);
+            }
+            // TODO: Recreer le dico depuis hashes
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendFormat("Nb distinct lengths: {0}", _files.Count).AppendLine();
+            foreach (var files in _files)
+            {
+                sb.AppendFormat("****** Length: {0} (Count: {1})", files.Key, files.Value.Count).AppendLine();
+                foreach (var file in files.Value)
+                {
+                    sb.Append("=======\n").AppendFormat(file.ToString()).AppendLine();
+                }
+            }
+            return sb.ToString();
         }
     }
 }

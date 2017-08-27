@@ -12,6 +12,8 @@ namespace Tester
     {
         static readonly ILog Logger = LogManager.GetLogger("Tester");
 
+        const string xmlFileName = "HashDb.xml";
+
         static void Main(string[] args)
         {
             try
@@ -20,8 +22,10 @@ namespace Tester
                 var h = new HashDb();
                 var w = new FileWalker(h);
                 w.WalkDirectory(@"c:\tmp");
-                h.SaveToXml("HashDb.xml");
-                
+                h.SaveToXml(xmlFileName);
+                h.LoadFromXml(xmlFileName);
+
+                Console.WriteLine(h);
                
             }
             catch (Exception e)
