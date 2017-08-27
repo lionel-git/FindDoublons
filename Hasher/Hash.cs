@@ -10,13 +10,13 @@ namespace Hasher
 {
     public class Hash
     {
-        FileInfo FileInfo { get; set; }
+        public FileInfo FileInfo { get; set; }
 
-        Guid FullHash { get; set; }
+        public Guid FullHash { get; set; }
 
-        Guid ShortHash { get; set; }
+        public Guid ShortHash { get; set; }
 
-        static readonly int ShortHashSize = 16;
+        private static readonly int ShortHashSize = 16;
 
         public Hash()
         {
@@ -58,7 +58,7 @@ namespace Hasher
             sb.AppendFormat("Name: {0}", FileInfo.FullName).AppendLine();
             sb.AppendFormat("Length: {0}", FileInfo.Length).AppendLine();
             sb.AppendFormat("FullHash: {0}", FullHash).AppendLine();
-            sb.AppendFormat("ShortHash: {0}", ShortHash).AppendLine();
+            sb.AppendFormat("ShortHash: {0}", ShortHash);
             return sb.ToString();
         }
 

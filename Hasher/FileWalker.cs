@@ -9,11 +9,11 @@ namespace Hasher
 {
     public class FileWalker
     {
-        Action<string> _processFile;
+        IFileTreater _fileTreater;
 
-        public FileWalker(Action<string> processFile)
+        public FileWalker(IFileTreater fileTreater)
         {
-            _processFile = processFile;
+            _fileTreater = fileTreater;
         }
 
         public void WalkDirectory(string directoryPath)
@@ -21,7 +21,7 @@ namespace Hasher
             // Process the list of files found in the directory.
             string[] fileEntries = Directory.GetFiles(directoryPath);
             foreach (string fileName in fileEntries)
-                _processFile(fileName);
+                _fileTreater.TreatFile(fileName);
 
             // Recurse into subdirectories of this directory.
             string[] subdirectoryEntries = Directory.GetDirectories(directoryPath);

@@ -47,6 +47,7 @@
     <Compile Include="FileWalker.cs" />
     <Compile Include="Hash.cs" />
     <Compile Include="HashDb.cs" />
+    <Compile Include="IFileTreater.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
