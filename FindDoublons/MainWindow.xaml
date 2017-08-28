@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FindDoublons"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="350" Width="1500">
+
+    <DockPanel LastChildFill="True">
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Content="Start Scan" Click="StartScan_Click"/>
+                <Button Content="Select Directory" Click="SelectDirectory_Click"/>
+
+            </ToolBar>
+        </ToolBarTray>
+        <StatusBar Name="statusbar" DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock  x:Name="myStatus" Text="Test" Foreground="Black" Background="Red" Height="20"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock  x:Name="myStatus2" Text="Test2" Foreground="Black" Background="Yellow" Height="20"/>
+            </StatusBarItem>
+
+        </StatusBar>
+        <StackPanel>
+            <DataGrid x:Name="directoriesGrid" ColumnWidth="*" HeadersVisibility="All" ItemsSource="{Binding Directories}"/>
+            <DataGrid x:Name="hashesGrid" ColumnWidth="*" HeadersVisibility="All" ItemsSource="{Binding Hashes}"/>
+        </StackPanel>
+    </DockPanel>
 </Window>

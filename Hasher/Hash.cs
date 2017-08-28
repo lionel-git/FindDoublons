@@ -11,14 +11,16 @@ namespace Hasher
     public class Hash
     {
         // File infos
-        public DateTime LastWriteTimeUtc { get; set; }
-        public DateTime CreationTimeUtc { get; set; }
         public String FullName { get; set; }
         public long Length { get; set; }
 
+        public DateTime LastWriteTimeUtc { get; set; }
+       
         // Hash controls
-        public Guid FullHash { get; set; }
         public Guid ShortHash { get; set; }
+        public Guid FullHash { get; set; }
+
+        public DateTime CreationTimeUtc { get; set; }
 
         // Size of sample for short hash
         private static readonly int BlockSizeSH = 16;

@@ -82,5 +82,13 @@ namespace Hasher
             }
             return sb.ToString();
         }
+
+        public List<Hash> GetAllHashes()
+        {
+            var allHashes = new List<Hash>();
+            foreach (var file in _files)
+                allHashes.AddRange(file.Value);
+            return allHashes;
+        }
     }
 }
