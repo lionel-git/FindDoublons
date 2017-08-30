@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,16 +21,16 @@ namespace FindDoublons
     {
         public HashDBViewModel()
         {
-            Hashes = new List<Hash>();
+            Hashes = new ObservableCollection<Hash>();
             Hashes.Add(new Hash());
 
-            Directories = new List<Dir>();
+            Directories = new ObservableCollection<Dir>();
             Directories.Add(new Dir(@"c:\tmp2"));
 
         }
 
-        public List<Hash> Hashes { get; set; }
-        public List<Dir> Directories { get; set; }
+        public ObservableCollection<Hash> Hashes { get; set; }
+        public ObservableCollection<Dir> Directories { get; set; }
 
     }
 }
