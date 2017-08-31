@@ -25,21 +25,32 @@ namespace FindDoublons
     {
         private HashDBViewModel _hashDbViewModel;
 
+        private HashDb _hashDb;
+        private FileWalker _fileWalker;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            _hashDb = new HashDb();
+            _fileWalker = new FileWalker(_hashDb);
+
             _hashDbViewModel= new HashDBViewModel();
-
-            var h = new HashDb();
-            var w = new FileWalker(h);
-            w.WalkDirectory(@"c:\tmp");
-            _hashDbViewModel.Hashes = new ObservableCollection<Hash>(h.GetAllHashes());
-
             DataContext = _hashDbViewModel;
+
+            UpdateScan(@"c:\tmp");
 
             Width = 1200;
             Height = 600;
         }
+
+        void UpdateScan(string path)
+        {
+            _fileWalker.WalkDirectory(path);
+            _hashDbViewModel.Hashes.Clear();
+            _hashDbViewModel.Hashes = new ObservableCollection<Hash>(_hashDb.GetAllHashes());
+        }
+
 
         private void StartScan_Click(object sender, RoutedEventArgs e)
         {
@@ -64,6 +75,7 @@ namespace FindDoublons
                 var s = System.IO.Path.GetDirectoryName(openFileDialog.FileName);
                 Console.WriteLine(s);
                 myStatus2.Text = s;
+                UpdateScan(s);
             }
 
 
